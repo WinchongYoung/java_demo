@@ -1,4 +1,4 @@
-package algrithm.sudoku;
+package algorithm.sudoku;
 
 /**
  * Created by wolf on 2016/3/17.
