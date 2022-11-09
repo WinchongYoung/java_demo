@@ -4,10 +4,10 @@ public class Test12 {
     public static void main(String[] args) {
         // -123
         // -321
-        System.out.println(test(0));
+        System.out.println(test(-123));
     }
 
-    public static String test(int i) {
+    public static Integer test(int i) {
         String st = i + "";
         char[] chars = st.toCharArray();
         StringBuilder s = new StringBuilder();
@@ -19,7 +19,6 @@ public class Test12 {
         for (int j = chars.length - 1; j >= start; j--) {
             s.append(chars[j]);
         }
-        // System.out.println(s);
-        return s.toString();
+        return Integer.parseInt(s.toString());
     }
 }
