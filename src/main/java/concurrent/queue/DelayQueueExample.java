@@ -1,4 +1,4 @@
-package concurrent;
+package concurrent.queue;
 
 import io.reactivex.annotations.NonNull;
 
