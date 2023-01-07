@@ -1,4 +1,4 @@
-package concurrent;
+package concurrent.vola;
 
 public class TestVolatile2 {
     public volatile int inc = 0;
