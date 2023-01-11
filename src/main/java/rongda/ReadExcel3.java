@@ -157,17 +157,15 @@ public class ReadExcel3 {
             File excelDir = new File(savePath);
             List<String> pdfs = new ArrayList<>();
             File[] sheetDirs = excelDir.listFiles();
-            for (File tmpDir : sheetDirs) {
-                if (tmpDir.isDirectory()) {
-                    File[] pdfFile = tmpDir.listFiles();
-                    for (File pdf : pdfFile) {
-                        if (pdf.getName().endsWith("pdf")) {
-                            pdfs.add(pdf.getAbsolutePath());
-                        }
-                    }
+            for (File pdf : sheetDirs) {
+                if (pdf.getName().endsWith("pdf")) {
+                    pdfs.add(pdf.getAbsolutePath());
                 }
             }
-            PdfUtils.mergePdfFile(pdfs, homeDir + "\\" + tmpFile + ".pdf");
+            Utils.createDir(".\\out_put_batch");
+            PdfUtils.mergePdfFile(pdfs, homeDir + "\\out_put_batch\\" + tmpFile.getName().replace(".xlsx", "") + ".pdf");
+
+            fis.close();
         }
     }
 

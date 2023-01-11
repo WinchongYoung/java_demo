@@ -70,6 +70,7 @@ public class Utils {
             single.add(bankName);
             cardMap.put(nameTmp, single);
         }
+        mangerInfoFile.close();
         return cardMap;
     }
 
