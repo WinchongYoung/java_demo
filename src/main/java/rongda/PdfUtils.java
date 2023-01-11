@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PdfUtils {
@@ -80,5 +81,14 @@ public class PdfUtils {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>(){{
+            add("C:\\Users\\Yang\\Desktop\\sample.pdf");
+            add("C:\\Users\\Yang\\Desktop\\sample2.pdf");
+        }};
+        mergePdfFile(list, "C:\\Users\\Yang\\Desktop\\merge.pdf");
+
     }
 }
