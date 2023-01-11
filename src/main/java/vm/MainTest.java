@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * https://juejin.cn/post/7186512174779465765#comment
+ */
 public class MainTest {
 
     public static void main(String[] args) throws Exception {
