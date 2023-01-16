@@ -3,9 +3,10 @@ package rongda;
 import java.math.BigDecimal;
 
 public class WorkSpace {
+
     private String name;
 
-    private Integer days;
+    private BigDecimal days;
 
     private Integer mon;
 
@@ -13,17 +14,23 @@ public class WorkSpace {
 
     private BigDecimal salaryPerMon;
 
+    private BigDecimal award;
+
+    private BigDecimal salaryTotal;
+
     private String ps;
 
     public WorkSpace() {
     }
 
-    public WorkSpace(String name, Integer days, Integer mon, BigDecimal salaryPerDay, BigDecimal salaryPerMon, String ps) {
+    public WorkSpace(String name, BigDecimal days, Integer mon, BigDecimal salaryPerDay, BigDecimal salaryPerMon, BigDecimal award, BigDecimal salaryTotal, String ps) {
         this.name = name;
         this.days = days;
         this.mon = mon;
         this.salaryPerDay = salaryPerDay;
         this.salaryPerMon = salaryPerMon;
+        this.award = award;
+        this.salaryTotal = salaryTotal;
         this.ps = ps;
     }
 
@@ -35,11 +42,11 @@ public class WorkSpace {
         this.name = name;
     }
 
-    public Integer getDays() {
+    public BigDecimal getDays() {
         return days;
     }
 
-    public void setDays(Integer days) {
+    public void setDays(BigDecimal days) {
         this.days = days;
     }
 
@@ -67,11 +74,41 @@ public class WorkSpace {
         this.salaryPerMon = salaryPerMon;
     }
 
+    public BigDecimal getAward() {
+        return award;
+    }
+
+    public void setAward(BigDecimal award) {
+        this.award = award;
+    }
+
+    public BigDecimal getSalaryTotal() {
+        return salaryTotal;
+    }
+
+    public void setSalaryTotal(BigDecimal salaryTotal) {
+        this.salaryTotal = salaryTotal;
+    }
+
     public String getPs() {
         return ps;
     }
 
     public void setPs(String ps) {
         this.ps = ps;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkSpace{" +
+                "name='" + name + '\'' +
+                ", days=" + days +
+                ", mon=" + mon +
+                ", salaryPerDay=" + salaryPerDay +
+                ", salaryPerMon=" + salaryPerMon +
+                ", award=" + award +
+                ", salaryTotal=" + salaryTotal +
+                ", ps='" + ps + '\'' +
+                '}';
     }
 }

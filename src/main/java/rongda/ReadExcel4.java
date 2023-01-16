@@ -27,6 +27,8 @@ public class ReadExcel4 {
 
         File[] files = dir.listFiles();
 
+        List<PersonBeanV2> allPeople = new ArrayList<>();
+
         // 获取银行卡号表
         Map<String, List<String>> cardMap = Utils.getBankInfo(homeDir);
 
@@ -108,7 +110,22 @@ public class ReadExcel4 {
                     List<WorkSpace> workSpaces = new ArrayList<>();
                     for (int z = 3; z < 8; z++) {
                         if (!tmp.get(z).get(0).toString().trim().equals("")) {
-                            workSpaces.add(new WorkSpace("", 0, 0, null, null, ""));
+                            BigDecimal days = !tmp.get(z).get(2).toString().trim().equals("") ? new BigDecimal(tmp.get(z).get(2).toString()) : BigDecimal.ZERO;
+                            days = days.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                            BigDecimal salaryTotal = !tmp.get(z).get(6).toString().trim().equals("") ? new BigDecimal(tmp.get(z).get(6).toString()) : BigDecimal.ZERO;
+                            salaryTotal = salaryTotal.setScale(0, BigDecimal.ROUND_HALF_UP);
+
+                            workSpaces.add(
+                                    new WorkSpace(tmp.get(z).get(0).toString().trim(),
+                                            days,
+                                            0,
+                                            BigDecimal.ZERO,
+                                            !tmp.get(z).get(3).toString().trim().equals("") ? new BigDecimal(tmp.get(z).get(3).toString()) : BigDecimal.ZERO,
+                                            !tmp.get(z).get(5).toString().trim().equals("") ? new BigDecimal(tmp.get(z).get(5).toString()) : BigDecimal.ZERO,
+                                            salaryTotal,
+                                            tmp.get(z).get(7).toString())
+                            );
                         }
                     }
 
@@ -128,10 +145,13 @@ public class ReadExcel4 {
                     // 开户行
                     String bankName = cardMap.containsKey(name) ? cardMap.get(name).get(1) : "";
 
-                    people.add(new PersonBeanV2(name, totalCN,
+
+                    PersonBeanV2 personBeanV2 = new PersonBeanV2(name, totalCN,
                             money + ".00",
                             workSpaces,
-                            cardNum, bankName));
+                            cardNum, bankName);
+                    people.add(personBeanV2);
+                    allPeople.add(personBeanV2);
                 }
                 // 过滤没有姓名的数据
                 List<PersonBeanV2> collect = people.stream().filter(x -> !x.getName().trim().equals("")).collect(Collectors.toList());
@@ -168,6 +188,8 @@ public class ReadExcel4 {
 
             fis.close();
         }
+        // allPeople.forEach(System.out::println);
+        Utils.saveResultAsExcel(allPeople, homeDir);
     }
 
 }
