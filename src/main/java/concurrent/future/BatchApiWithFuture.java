@@ -20,7 +20,6 @@ public class BatchApiWithFuture {
         List<CompletableFuture<?>> futures = new ArrayList<>();
         // 如果ids为500，这里会分隔成9份，也就是partitionIdList.size()=9；
         // 遍历9次,也相当于创建了9个CompletableFuture对象，前8个CompletableFuture对象处理62个数据。第9个处理4个数据。
-        ForkJoinPool pool = new ForkJoinPool();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(9, 9, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         partitionIdList.forEach(partitionIds -> {
             CompletableFuture<Map<Long, String>> future = CompletableFuture.supplyAsync(() -> getBasicData(partitionIds), threadPoolExecutor);
@@ -37,6 +36,7 @@ public class BatchApiWithFuture {
                 e.printStackTrace();
             }
         }
+        threadPoolExecutor.shutdown();
     }
 
     public static Map<Long, String> getBasicData(List<Long> ids) {
