@@ -2,25 +2,32 @@ package designpattern.creation.ADbuilder;
 
 public class PhoneBuilder extends AbstractBuilder {
 
+    Phone phone;
+
     public PhoneBuilder() {
-        product = new Phone();
+        phone = new Phone();
     }
 
     @Override
-    AbstractBuilder setCPU(String cpu) {
-        product.cpu = cpu;
+    PhoneBuilder setCPU(String cpu) {
+        phone.cpu = cpu;
         return this;
     }
 
     @Override
-    AbstractBuilder setMem(String mem) {
-        product.mem = mem;
+    PhoneBuilder setMem(String mem) {
+        phone.mem = mem;
         return this;
     }
 
     @Override
-    AbstractBuilder setDisk(String disk) {
-        product.disk = disk;
+    PhoneBuilder setDisk(String disk) {
+        phone.disk = disk;
         return this;
+    }
+
+    @Override
+    public Phone build() {
+        return phone;
     }
 }
