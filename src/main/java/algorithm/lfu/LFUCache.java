@@ -4,31 +4,56 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 class LFUCache {
-    // key 到 val 的映射，我们后文称为 KV 表
-    HashMap<Integer, Integer> keyToVal;
-    // key 到 freq 的映射，我们后文称为 KF 表
-    HashMap<Integer, Integer> keyToFreq;
-    // freq 到 key 列表的映射，我们后文称为 FK 表
-    HashMap<Integer, LinkedHashSet<Integer>> freqToKeys;
+    // key -> (freq, value)
+    HashMap<Integer, Node> keyToNode;
+    // freq -> [key]
+    HashMap<Integer, LinkedHashSet<Integer>> freqToKeySet;
     // 记录最小的频次
     int minFreq;
-    // 记录 LFU 缓存的最大容量
-    int cap;
+    // 容量
+    int capacity;
 
     public LFUCache(int capacity) {
-        keyToVal = new HashMap<>();
-        keyToFreq = new HashMap<>();
-        freqToKeys = new HashMap<>();
-        this.cap = capacity;
+        if (capacity < 1) {
+            throw new IllegalArgumentException("illegal capacity");
+        }
+        keyToNode = new HashMap<>();
+        freqToKeySet = new HashMap<>();
+        this.capacity = capacity;
         this.minFreq = 0;
     }
 
     public int get(int key) {
-        if (!keyToVal.containsKey(key)) {
+        if (!keyToNode.containsKey(key)) {
             return -1;
         }
-        increaseFreq(key);
-        return keyToVal.get(key);
+        // 获取数据
+        int ret = keyToNode.get(key).data;
+
+        // 更新最小频次
+        LinkedHashSet<Integer> minFreqKeys = freqToKeySet.get(minFreq);
+        // 最小频次是当前key 且 该频次下只有一条记录，此时才更新
+        if (key == minFreqKeys.iterator().next() && minFreqKeys.size() == 1) {
+            minFreq++;
+        }
+
+        // 更新keyToNode
+        int originFre = keyToNode.get(key).freq;
+        keyToNode.put(key, new Node(key, originFre + 1));
+
+        // 更新 freqToKeySet
+        LinkedHashSet<Integer> keys = freqToKeySet.get(originFre);
+        keys.remove(originFre);
+        // freqToKeySet 中 originFre + 1频次已存在则新增元素
+        if (freqToKeySet.containsKey(originFre + 1)) {
+            freqToKeySet.get(originFre + 1).add(key);
+        } else {
+            // freqToKeySet 中 originFre + 1频次不存在插入新记录
+            freqToKeySet.put(originFre + 1, new LinkedHashSet<Integer>() {{
+                add(key);
+            }});
+        }
+        return ret;
     }
 
     // 增加 key 对应的 freq
@@ -37,28 +62,69 @@ class LFUCache {
     }
 
     public void put(int key, int val) {
-        if (keyToVal.containsKey(key)) {
-            keyToVal.put(key, val);
-            increaseFreq(key);
-            return;
+        if (!keyToNode.containsKey(key)) {
+            if (capacity == keyToNode.size()) {
+                removeMinFreqKey();
+            }
+            keyToNode.put(key, new Node(val, 1));
+            if (freqToKeySet.containsKey(1)) {
+                freqToKeySet.get(1).add(key);
+            } else {
+                freqToKeySet.put(1, new LinkedHashSet<Integer>() {{
+                    add(key);
+                }});
+            }
+            minFreq = 1;
+        } else {
+            int originFre = keyToNode.get(key).freq;
+            keyToNode.put(key, new Node(key, originFre + 1));
+            // 最小频次是当前key 且 该频次下只有一条记录，此时才更新
+            if (freqToKeySet.get(originFre).size() == 1 && minFreq == originFre) {
+                minFreq++;
+            }
+            freqToKeySet.get(originFre).remove(key);
+            if (freqToKeySet.containsKey(originFre + 1)) {
+                freqToKeySet.get(originFre + 1).add(key);
+            } else {
+                freqToKeySet.put(1 + 1, new LinkedHashSet<Integer>() {{
+                    add(key);
+                }});
+            }
         }
-        if (this.cap <= keyToVal.size()) {
-            removeMinFreqKey();
-        }
-        /* 插入 key 和 val，对应的 freq 为 1 */
-        // 插入 KV 表
-        keyToVal.put(key, val);
-        // 插入 KF 表
-        keyToFreq.put(key, 1);
-        // 插入 FK 表
-        freqToKeys.putIfAbsent(1, new LinkedHashSet<>());
-        freqToKeys.get(1).add(key);
-        // 插入新 key 后最小的 freq 肯定是 1
-        this.minFreq = 1;
     }
 
     private void removeMinFreqKey() {
+        Integer minKey = freqToKeySet.get(minFreq).iterator().next();
+        keyToNode.remove(minKey);
+        freqToKeySet.get(minFreq).remove(minKey);
     }
 
+    static class Node {
+        public Integer data;
+        public Integer freq;
 
+        public Node(Integer data, Integer freq) {
+            this.data = data;
+            this.freq = freq;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + data +
+                    ", freq=" + freq +
+                    '}';
+        }
+    }
+
+    public static void main(String[] args) {
+        LFUCache lfuCache = new LFUCache(3);
+        lfuCache.put(1, 1);
+        lfuCache.put(2, 2);
+        lfuCache.put(3, 3);
+        lfuCache.put(3, 3);
+        lfuCache.put(5, 5);
+        lfuCache.keyToNode.forEach((k, v) -> System.out.println(k + "->" + v));
+        lfuCache.freqToKeySet.forEach((k, set) -> System.out.println(k + "->" + set.toString()));
+    }
 }
