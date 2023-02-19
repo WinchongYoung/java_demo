@@ -1,5 +1,8 @@
 package designpattern.structural.AFcomposite;
 
+/**
+ * 把一组相似的对象当作一个单一的对象。如：树形菜单
+ */
 public class CompositeTest {
 
     public static void main(String[] args) {
@@ -19,3 +22,10 @@ public class CompositeTest {
         root.printMenu();
     }
 }
+/**
+ * 什么场景用到？
+ * 层级结构
+ * 部门组织结构
+ * 组合了别的对象还是组合模式吗？
+ * ......
+ */
