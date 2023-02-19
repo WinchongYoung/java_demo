@@ -1,4 +1,4 @@
-package com.atguigu.design.structural.facade;
+package designpattern.structural.AEfacade;
 
 public class Social {
 

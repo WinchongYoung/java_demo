@@ -7,7 +7,7 @@ package designpattern.structural.AEfacade;
  *
  *
  */
-public class MainTest {
+public class FacadeTest {
 
     public static void main(String[] args) {
 

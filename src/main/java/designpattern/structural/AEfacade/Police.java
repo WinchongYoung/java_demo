@@ -1,8 +1,8 @@
-package com.atguigu.design.structural.facade;
+package designpattern.structural.AEfacade;
 
 public class Police {
 
-    public void resgister(String name){
+    public void register(String name){
         System.out.println(name + "已办理落户");
     }
 }
