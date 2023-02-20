@@ -5,7 +5,6 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * 使用组合模式，组织层级结构的数据
  */
@@ -21,18 +20,18 @@ public class Menu {
     }
 
     //组合模式关注点
-    private List<Menu> childs = new ArrayList<>();
+    private List<Menu> children = new ArrayList<>();
 
     //提供添加层级的方法
     void addChildMenu(Menu menu) {
-        childs.add(menu);
+        children.add(menu);
     }
 
     //层级遍历方法
     void printMenu() {
         System.out.println(name);
-        if (childs.size() > 0) {
-            for (Menu child : childs) {
+        if (children.size() > 0) {
+            for (Menu child : children) {
                 child.printMenu();
             }
         }
