@@ -1,4 +1,4 @@
-package test;
+package test.common;
 
 public class Test6 {
     public Object clone() throws CloneNotSupportedException {
