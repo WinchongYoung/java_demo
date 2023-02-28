@@ -1,11 +1,21 @@
 package test.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Test19 {
     public static void main(String[] args) {
-        List<? super Number> list = new ArrayList<>();
-        list.add(2);
+        Integer a = 300;
+        Integer b = 400;
+
+        System.out.println(a.equals(b));
+        byte allBitsOne = (byte) 0xFF;
+
+    }
+
+
+    class InnerClass {
+        Test19 test19;
+
+        public InnerClass(Test19 test19) {
+            this.test19 = test19;
+        }
     }
 }
