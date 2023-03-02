@@ -10,7 +10,7 @@ public class Test15 {
         // 系统日期
         LocalDate localDate = LocalDate.now();
         // 指定年月日
-        LocalDate localDate2 = LocalDate.of(2022, 1,1);
+        LocalDate localDate2 = LocalDate.of(2022, 1, 1);
         // parse方法-默认格式yyyy-MM-dd
         LocalDate localDate3 = LocalDate.parse("2022-01-01");
         // parse方法-指定格式
@@ -35,6 +35,11 @@ public class Test15 {
         long timeStamp = Timestamp.valueOf(monthStartTime).getTime() / 1000;
         // 当前时间戳
         long epochSecond = Instant.now().getEpochSecond();
+        Instant instant = Instant.ofEpochSecond(1677563949);
+
+        // 时间戳转LocalDateTime/LocalDate
+        LocalDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDate zonedDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
 
     }
 }
