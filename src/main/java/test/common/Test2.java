@@ -1,4 +1,4 @@
-package test;
+package test.common;
 
 import org.redisson.Redisson;
 import org.redisson.RedissonFairLock;

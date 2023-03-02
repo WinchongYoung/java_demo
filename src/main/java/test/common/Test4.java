@@ -1,4 +1,4 @@
-package test;
+package test.common;
 
 public class Test4 {
 	public synchronized void test() {
