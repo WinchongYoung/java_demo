@@ -1,4 +1,4 @@
-package designpattern.behavioral.AKchain;
+package designpattern.behavioral.AKchain.simple;
 
 
 public class Teacher {

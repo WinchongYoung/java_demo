@@ -1,4 +1,4 @@
-package designpattern.behavioral.AKchain;
+package designpattern.behavioral.AKchain.simple;
 
 /**
  * //1、链条的引用点
