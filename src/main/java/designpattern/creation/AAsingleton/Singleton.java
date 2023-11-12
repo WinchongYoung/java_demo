@@ -41,8 +41,9 @@ public class Singleton {
  *
  * 面试问题
  * 系统环境信息（System.getProperties()）？
- * Spring中怎么保持组件单例的？
+ * Spring中怎么保持组件单例的？使用单例注册表机制，将单例对象放进Map里。取的时候没有则创建一个对象，有即返回
  * ServletContext是什么（封装Servlet的信息）？是单例吗？怎么保证？
+ *
  * ApplicationContext是什么？是单例吗？怎么保证？
  * ApplicationContext： tomcat：一个应用（部署的一个war包）会有一个应用上下文
  * ApplicationContext： Spring：表示整个IOC容器（怎么保证单例的）。ioc容器中有很多组件（怎么保证单例）

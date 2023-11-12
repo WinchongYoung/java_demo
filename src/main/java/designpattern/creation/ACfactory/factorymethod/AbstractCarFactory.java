@@ -7,5 +7,5 @@ package designpattern.creation.ACfactory.factorymethod;
 public abstract class AbstractCarFactory {
 
     public abstract AbstractCar newCar();
-    //我能造口罩.....
+
 }

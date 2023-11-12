@@ -1,4 +1,4 @@
-package algorithm.leecode;
+package algorithm.leecode.dp;
 
 public class Solution53 {
 
@@ -15,6 +15,6 @@ public class Solution53 {
     public static void main(String[] args) {
         int[] nums = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray(nums));
-
     }
+
 }
