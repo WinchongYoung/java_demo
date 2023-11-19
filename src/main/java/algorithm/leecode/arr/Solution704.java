@@ -1,6 +1,6 @@
-package algorithm.leecode;
+package algorithm.leecode.arr;
 
-public class SolutionBinSearch {
+public class Solution704 {
     public static int search(int[] nums, int target) {
         // 异常处理
         if (nums.length == 0 || target < nums[0] || target > nums[nums.length - 1]) {
@@ -22,6 +22,6 @@ public class SolutionBinSearch {
     }
 
     public static void main(String[] args) {
-        System.out.println(search(new int[]{-1, 0, 3, 5, 9, 12}, 2));
+        System.out.println(search(new int[]{-1, 0, 3, 5, 9, 12}, 5));
     }
 }
