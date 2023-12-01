@@ -1,4 +1,4 @@
-package algorithm.leecode.arr;
+package algorithm.leecode.link;
 
 import algorithm.util.ListNode;
 
