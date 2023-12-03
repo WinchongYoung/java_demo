@@ -3,13 +3,14 @@ package algorithm.leecode.link;
 import algorithm.util.ListNode;
 
 public class Solution19 {
-    public static ListNode removeNthFromEnd(ListNode head, int n) {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
 
         ListNode first = head, second = head;
         // 初始化第一个指针
         for (int i = 0; i < n; i++) {
             first = first == null ? null : first.next;
         }
+        // n >= 链表长度，删除头节点
         if (first == null) {
             return head.next;
         }
@@ -31,15 +32,12 @@ public class Solution19 {
         l1.next = l2;
         l2.next = l3;
         l3.next = l4;
-        ListNode tmp = l1;
-        tmp = tmp.next;
-        System.out.println(l1.val);
 
-        /*ListNode result = removeNthFromEnd(l1, 2);
+        ListNode result = new Solution19().removeNthFromEnd(l1, 2);
         while (result != null) {
-            // System.out.println(result.val);
+            System.out.println(result.val);
             result = result.next;
-        }*/
-
+        }
     }
+
 }
