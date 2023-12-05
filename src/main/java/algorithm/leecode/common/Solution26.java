@@ -1,4 +1,4 @@
-package algorithm.leecode;
+package algorithm.leecode.common;
 
 public class Solution26 {
     public int removeDuplicates(int[] nums) {

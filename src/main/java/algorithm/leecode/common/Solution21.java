@@ -1,4 +1,4 @@
-package algorithm.leecode;
+package algorithm.leecode.common;
 
 public class Solution21 {
     public static class ListNode {

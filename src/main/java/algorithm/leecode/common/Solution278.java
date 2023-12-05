@@ -1,4 +1,4 @@
-package algorithm.leecode;
+package algorithm.leecode.common;
 
 public class Solution278 {
     public static int firstBadVersion(int n) {

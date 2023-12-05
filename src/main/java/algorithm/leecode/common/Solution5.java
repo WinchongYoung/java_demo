@@ -1,4 +1,4 @@
-package algorithm.leecode;
+package algorithm.leecode.common;
 
 public class Solution5 {
     public static String longestPalindrome(String s) {

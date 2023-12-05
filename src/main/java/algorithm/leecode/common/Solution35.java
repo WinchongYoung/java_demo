@@ -1,4 +1,4 @@
-package algorithm.leecode;
+package algorithm.leecode.common;
 
 public class Solution35 {
     public static int search(int[] nums, int target) {
