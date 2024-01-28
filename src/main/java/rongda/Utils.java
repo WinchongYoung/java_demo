@@ -69,9 +69,16 @@ public class Utils {
                 row2.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
                 bankName = row2.getCell(2).getStringCellValue();
             }
+
+            String phoneNum = "";
+            if (row2.getCell(3) != null) {
+                row2.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
+                phoneNum = row2.getCell(3).getStringCellValue();
+            }
             List<String> single = new ArrayList<>();
             single.add(cardNumTmp);
             single.add(bankName);
+            single.add(phoneNum);
             cardMap.put(nameTmp, single);
         }
         mangerInfoFile.close();
@@ -87,6 +94,35 @@ public class Utils {
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
+        }
+    }
+
+    public static void deleteDir(String path) {
+        deleteDir(new File(path));
+    }
+
+    public static void deleteDir(File directory) {
+        if (!directory.exists()) {
+            return;
+        }
+
+        //文件是否为目录
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+
+            //如果目录包含任何文件
+            if (files != null) {
+                for (File file : files) {
+                    //如果子目录为非空，则进行递归调用
+                    deleteDir(file);
+                }
+            }
+        }
+
+        if (directory.delete()) {
+            System.out.println(directory + " 被删除");
+        } else {
+            System.out.println("目录未删除");
         }
     }
 

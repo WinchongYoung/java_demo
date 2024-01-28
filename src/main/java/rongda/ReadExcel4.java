@@ -1,10 +1,8 @@
 package rongda;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.NumberToTextConverter;
-import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -32,6 +30,10 @@ public class ReadExcel4 {
         // 获取银行卡号表
         Map<String, List<String>> cardMap = Utils.getBankInfo(homeDir);
 
+        Utils.deleteDir(homeDir + "\\output\\");
+        // 生成前创建目录
+        String savePath = homeDir + "\\output\\";
+
         for (File tmpFile : files) {
             FileInputStream fis = new FileInputStream(tmpFile.getAbsolutePath());
 
@@ -39,10 +41,10 @@ public class ReadExcel4 {
             // Finds the workbook instance for XLSX file
             XSSFWorkbook myWorkBook = new XSSFWorkbook(fis);
 
-            int numberOfSheets = myWorkBook.getNumberOfSheets();
+            //  2023-01 只有第一个sheet保存信息，第二个sheet不用
+            int numberOfSheets = 1;
 
-            // 生成前创建目录
-            String savePath = homeDir + "\\out_put\\" + tmpFile.getName().replace(".xlsx", "");
+            // String savePath = homeDir + "\\output\\" + tmpFile.getName().replace(".xlsx", "");
             for (int sheetIndex = 0; sheetIndex < numberOfSheets; sheetIndex++) {
 
                 List<PersonBeanV2> people = new ArrayList<>();
@@ -55,7 +57,7 @@ public class ReadExcel4 {
                 Iterator<Row> rowIterator = mySheet.iterator();
 
                 // Traversing over each row of XLSX file
-                FormulaEvaluator formulaEvaluator = new XSSFFormulaEvaluator(myWorkBook);
+                // FormulaEvaluator formulaEvaluator = new XSSFFormulaEvaluator(myWorkBook);
 
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();
@@ -76,7 +78,11 @@ public class ReadExcel4 {
                                 tmp.add(cell.getBooleanCellValue());
                                 break;
                             case Cell.CELL_TYPE_FORMULA:
-                                tmp.add(NumberToTextConverter.toText(cell.getNumericCellValue()));
+                                try {
+                                    tmp.add(NumberToTextConverter.toText(cell.getNumericCellValue()));
+                                } catch (Exception e) {
+                                    tmp.add("");
+                                }
                                 break;
                             default:
                                 tmp.add("");
@@ -96,7 +102,7 @@ public class ReadExcel4 {
                         indexRecord.add(Arrays.asList(startIndex, i));
                     }
                 }
-
+                if(indexRecord.isEmpty()) continue;
                 List<List<List<Object>>> result = new ArrayList<>();
                 for (List<Integer> tmp : indexRecord) {
                     List<List<Object>> lists = list.subList(tmp.get(0), tmp.get(1) + 1);
@@ -105,10 +111,10 @@ public class ReadExcel4 {
 
                 for (List<List<Object>> tmp : result) {
                     // 姓名处理
-                    String name = tmp.get(1).get(0).toString().replace("姓名", "").replace("：", "").replace(" ", "");
+                    String name = tmp.get(1).get(1).toString();
                     // 工地处理
                     List<WorkSpace> workSpaces = new ArrayList<>();
-                    for (int z = 3; z < 8; z++) {
+                    for (int z = 3; z <= 10; z++) {
                         if (!tmp.get(z).get(0).toString().trim().equals("")) {
                             BigDecimal days = !tmp.get(z).get(2).toString().trim().equals("") ? new BigDecimal(tmp.get(z).get(2).toString()) : BigDecimal.ZERO;
                             days = days.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -130,11 +136,11 @@ public class ReadExcel4 {
                     }
 
                     // 数字金额
-                    String moneyOri = tmp.get(20).get(2).toString().equals("") ? "0" : tmp.get(20).get(2).toString();
+                    String moneyOri = tmp.get(22).get(2).toString().equals("") ? "0" : tmp.get(22).get(2).toString();
                     String money = new BigDecimal(moneyOri).setScale(0, BigDecimal.ROUND_HALF_UP).toString();
 
                     // 大写金额处理
-                    String totalStr = tmp.get(20).get(4).toString();
+                    String totalStr = tmp.get(22).get(4).toString();
                     String totalCN = totalStr.replace("（", "").replace("）", "").replace("大写", "").replace("：", "").replace(" ", "");
                     if (!money.equals("") && (totalCN.equals("元整") || totalCN.equals(""))) {
                         totalCN = ConvertUpMoney.toChinese(money) + "整";
@@ -144,12 +150,13 @@ public class ReadExcel4 {
                     String cardNum = cardMap.containsKey(name) ? cardMap.get(name).get(0) : "";
                     // 开户行
                     String bankName = cardMap.containsKey(name) ? cardMap.get(name).get(1) : "";
-
+                    // 电话号码
+                    String phoneNum = cardMap.containsKey(name) ? cardMap.get(name).get(2) : "";
 
                     PersonBeanV2 personBeanV2 = new PersonBeanV2(name, totalCN,
                             money + ".00",
                             workSpaces,
-                            cardNum, bankName);
+                            cardNum, bankName, phoneNum);
                     people.add(personBeanV2);
                     allPeople.add(personBeanV2);
                 }
@@ -164,30 +171,32 @@ public class ReadExcel4 {
                     params.put("fill_2", year);
                     params.put("fill_3", mon);
                     params.put("fill_4", day);
-                    params.put("fill_5", "支付" + per.getName() + "农历" +yearDelta + "年余下全部工资");
+                    params.put("fill_5", "支付" + per.getName() + "农历" + yearDelta + "年余下全部工资");
                     params.put("fill_6", per.getTotalCN());
                     params.put("fill_7", per.getTotal());
-                    params.put("fill_8", per.getCardNum() + "  " + per.getBankDesc());
-                    Random random = new Random();
+                    params.put("fill_8", per.getCardNum() + "  " + per.getBankDesc() + "  " + per.phoneNum);
                     CreatePdf.pdfGenerator(homeDir + "\\source_pdf\\source_pdf.pdf", savePath + "\\" + per.name + ".pdf", params);
                 }
                 System.out.println("生成pdf成功，总计" + collect.size());
             }
 
-            // 合并pdf
-            File excelDir = new File(savePath);
-            List<String> pdfs = new ArrayList<>();
-            File[] sheetDirs = excelDir.listFiles();
-            for (File pdf : sheetDirs) {
-                if (pdf.getName().endsWith("pdf")) {
-                    pdfs.add(pdf.getAbsolutePath());
-                }
-            }
-            Utils.createDir(".\\out_put_batch");
-            PdfUtils.mergePdfFile(pdfs, homeDir + "\\out_put_batch\\" + tmpFile.getName().replace(".xlsx", "") + ".pdf");
+
 
             fis.close();
         }
+
+        // 合并pdf
+        File excelDir = new File(savePath);
+        List<String> pdfs = new ArrayList<>();
+        File[] sheetDirs = excelDir.listFiles();
+        for (File pdf : sheetDirs) {
+            if (pdf.getName().endsWith("pdf")) {
+                pdfs.add(pdf.getAbsolutePath());
+            }
+        }
+        Utils.createDir(homeDir + "\\output_batch");
+        PdfUtils.mergePdfFile(pdfs, homeDir + "\\output_batch\\" + "汇总.pdf");
+
         // allPeople.forEach(System.out::println);
         Utils.saveResultAsExcel(allPeople, homeDir);
     }

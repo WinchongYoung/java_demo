@@ -1,6 +1,5 @@
 package rongda;
 
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @Title: ConvertUpMoney
@@ -19,7 +18,7 @@ public class ConvertUpMoney {
     //转成中文的大写金额
     public static String toChinese(String str) {
         //判断输入的金额字符串是否符合要求
-        if (StringUtils.isBlank(str) || !str.matches("(-)?[\\d]*(.)?[\\d]*")) {
+        if (str == null || str.isEmpty() || !str.matches("(-)?[\\d]*(.)?[\\d]*")) {
             System.out.println("抱歉，请输入数字！");
             return str;
         }
