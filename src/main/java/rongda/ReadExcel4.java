@@ -164,7 +164,7 @@ public class ReadExcel4 {
                     params.put("fill_2", year);
                     params.put("fill_3", mon);
                     params.put("fill_4", day);
-                    params.put("fill_5", "支付" + per.getName() + yearDelta + "年余下全部工资");
+                    params.put("fill_5", "支付" + per.getName() + "农历" +yearDelta + "年余下全部工资");
                     params.put("fill_6", per.getTotalCN());
                     params.put("fill_7", per.getTotal());
                     params.put("fill_8", per.getCardNum() + "  " + per.getBankDesc());
