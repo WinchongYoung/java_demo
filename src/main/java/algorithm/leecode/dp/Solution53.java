@@ -1,15 +1,20 @@
 package algorithm.leecode.dp;
 
+/**
+ * dp[i] =
+ * dp[i - 1] + nums[i]，即：nums[i]加入当前连续子序列和
+ * nums[i]             即：nums[i]作为头开始计算当前连续子序列和
+ */
 public class Solution53 {
 
-
     public static int maxSubArray(int[] nums) {
-        int total = nums[0], max = nums[0];
+        int total = 0;
+        int res = nums[0];
         for (int num : nums) {
-            total = Math.max(num, num + total);
-            max = Math.max(max, total);
+            total = Math.max(total + num, num);
+            res = Math.max(res, total);
         }
-        return max;
+        return res;
     }
 
     public static void main(String[] args) {
