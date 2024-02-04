@@ -144,12 +144,17 @@ public class ReadExcel4 {
                     String cardNum = cardMap.containsKey(name) ? cardMap.get(name).get(0) : "";
                     // 开户行
                     String bankName = cardMap.containsKey(name) ? cardMap.get(name).get(1) : "";
+                    // 电话号码
+                    String phoneNum = cardMap.containsKey(name) ? cardMap.get(name).get(2) : "";
 
 
                     PersonBeanV2 personBeanV2 = new PersonBeanV2(name, totalCN,
                             money + ".00",
                             workSpaces,
-                            cardNum, bankName);
+                            cardNum,
+                            bankName,
+                            phoneNum
+                    );
                     people.add(personBeanV2);
                     allPeople.add(personBeanV2);
                 }
@@ -167,7 +172,7 @@ public class ReadExcel4 {
                     params.put("fill_5", "支付" + per.getName() + "农历" +yearDelta + "年余下全部工资");
                     params.put("fill_6", per.getTotalCN());
                     params.put("fill_7", per.getTotal());
-                    params.put("fill_8", per.getCardNum() + "  " + per.getBankDesc());
+                    params.put("fill_8", per.getCardNum() + "  " + per.getBankDesc() + "  " + per.getPhoneNum());
                     Random random = new Random();
                     CreatePdf.pdfGenerator(homeDir + "\\source_pdf\\source_pdf.pdf", savePath + "\\" + per.name + ".pdf", params);
                 }

@@ -69,9 +69,15 @@ public class Utils {
                 row2.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
                 bankName = row2.getCell(2).getStringCellValue();
             }
+            String phoneNum = "";
+            if (row2.getCell(3) != null) {
+                row2.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
+                phoneNum = row2.getCell(3).getStringCellValue();
+            }
             List<String> single = new ArrayList<>();
             single.add(cardNumTmp);
             single.add(bankName);
+            single.add(phoneNum);
             cardMap.put(nameTmp, single);
         }
         mangerInfoFile.close();

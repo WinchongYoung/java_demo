@@ -15,28 +15,33 @@ public class PersonBeanV2 {
 
     String bankDesc;
 
+    String phoneNum;
+
     public PersonBeanV2() {
     }
 
     @Override
     public String toString() {
-        return "PersonBean{" +
+        return "PersonBeanV2{" +
                 "name='" + name + '\'' +
                 ", totalCN='" + totalCN + '\'' +
                 ", total='" + total + '\'' +
                 ", workSpaces=" + workSpaces +
                 ", cardNum='" + cardNum + '\'' +
                 ", bankDesc='" + bankDesc + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
                 '}';
     }
 
-    public PersonBeanV2(String name, String totalCN, String total, List<WorkSpace> workSpaces, String cardNum, String bankDesc) {
+    public PersonBeanV2(String name, String totalCN, String total, List<WorkSpace> workSpaces, String cardNum, String bankDesc, String phoneNum) {
         this.name = name;
         this.totalCN = totalCN;
         this.total = total;
         this.workSpaces = workSpaces;
         this.cardNum = cardNum;
         this.bankDesc = bankDesc;
+        this.phoneNum = phoneNum;
+
     }
 
     public String getName() {
@@ -85,5 +90,13 @@ public class PersonBeanV2 {
 
     public void setBankDesc(String bankDesc) {
         this.bankDesc = bankDesc;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 }
