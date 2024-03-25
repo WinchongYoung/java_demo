@@ -1,4 +1,4 @@
-package algorithm.tree;
+package algorithm.leecode.tree;
 
 import algorithm.util.TreeNode;
 

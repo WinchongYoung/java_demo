@@ -9,6 +9,17 @@ public class TestHashMap {
 
     public static void main(String[] args) {
         Map<Integer, String> map = new HashMap<>();
+        map.put(1, "1");
+        map.put(2, "2");
+        map.put(3, "2");
+        map.put(4, "2");
+        map.put(5, "2");
+        map.put(6, "2");
+        map.put(7, "2");
+        map.put(8, "2");
+        map.put(9, "1-1");
+        map.put(10, "1-1");
+        map.put(101, "1-1");
     }
 
     static int tableSizeFor(int cap) {
