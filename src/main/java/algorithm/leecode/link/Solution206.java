@@ -1,4 +1,4 @@
-package algorithm.leecode.arr;
+package algorithm.leecode.link;
 
 import algorithm.util.ListNode;
 
@@ -30,8 +30,10 @@ public class Solution206 {
         ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
+        ListNode l4 = new ListNode(4);
         l1.next = l2;
         l2.next = l3;
+        l3.next = l4;
 
         ListNode result = reverseList3(l1);
         while (result != null) {
@@ -43,10 +45,10 @@ public class Solution206 {
     public static ListNode reverseList3(ListNode head) {
         ListNode pre = null, curr = head;
         while (curr != null) {
-            ListNode next = curr.next;
+            ListNode tmp = curr.next;
             curr.next = pre;
             pre = curr;
-            curr = next;
+            curr = tmp;
         }
         return pre;
     }

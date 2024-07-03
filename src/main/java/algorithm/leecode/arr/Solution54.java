@@ -41,12 +41,28 @@ public class Solution54 {
     }
 
     public static void main(String[] args) {
-        int[][] matrix = generateMatrix(3);
+        int num = 10;
+        int[][] matrix = generateMatrix(num);
+        int max = num * num;
+        int length = (max + "").length();
         for (int[] ints : matrix) {
             for (int i : ints) {
-                System.out.print(i + " ");
+                System.out.print(toSpeLong(i + "", length) + " ");
             }
             System.out.println();
         }
     }
+
+    public static String toSpeLong(String s, int length){
+        if (s.length() >= length) {
+            return s;
+        }
+        int  l = length - s.length();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < l; i++) {
+            sb.append(" ");
+        }
+        return sb.append(s).toString();
+    }
+
 }
